@@ -2,7 +2,12 @@ import { StatusCodes } from "http-status-codes";
 import { Request, Response, NextFunction } from "express";
 
 import CustomErrorHandler from "../error/CustomErrorHandler.js";
-import { JSON_WEB_TOKEN_ERROR, SEQUELIZE_DATABASE_ERROR, SEQUELIZE_VALIDATION_ERROR, UNKNOWN_ERROR } from "../constant/constant.js";
+import {
+    JSON_WEB_TOKEN_ERROR,
+    SEQUELIZE_DATABASE_ERROR,
+    SEQUELIZE_VALIDATION_ERROR,
+    UNKNOWN_ERROR,
+} from "../constant/constant.js";
 
 export const errorMiddleware = (
     err: any,
@@ -10,6 +15,8 @@ export const errorMiddleware = (
     res: Response,
     next: NextFunction,
 ) => {
+    // console.log("errorMiddleware", err);
+
     if (err instanceof CustomErrorHandler) {
         return res.status(err.statusCode).json({
             success: false,

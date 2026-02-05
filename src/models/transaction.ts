@@ -14,6 +14,11 @@ import {
     PENDING,
     EXTERNAL_REF_REQUIRED,
     EXTERNAL_REF_NOT_NULL,
+    TRANSFER,
+    TRANSACTION_TYPE_REQUIRED,
+    TRANSACTION_TYPE_NOT_NULL,
+    WALLET_ID_REQUIRED,
+    WALLET_ID_NOT_NULL,
 } from "../constant/constant";
 import { nanoid } from "nanoid";
 
@@ -24,8 +29,11 @@ class Transactions extends Model<
     declare id: CreationOptional<string>;
 
     declare accountId: string;
+    declare fromWalletId: string;
+    declare toWalletId: string;
     declare externalTransactionReference: string;
     declare status: string;
+    declare type: string;
     declare amount: number;
     declare transactionFee: number;
     declare balanceBefore: number;
@@ -54,6 +62,30 @@ Transactions.init(
                 },
             },
         },
+        fromWalletId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: `From ${WALLET_ID_REQUIRED.toLowerCase()}`,
+                },
+                notNull: {
+                    msg: `From ${WALLET_ID_NOT_NULL.toLowerCase()}`,
+                },
+            },
+        },
+        toWalletId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: `To ${WALLET_ID_REQUIRED.toLowerCase()}`,
+                },
+                notNull: {
+                    msg: `To ${WALLET_ID_NOT_NULL.toLowerCase()}`,
+                },
+            },
+        },
         externalTransactionReference: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -70,6 +102,18 @@ Transactions.init(
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: PENDING,
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: TRANSACTION_TYPE_REQUIRED,
+                },
+                notNull: {
+                    msg: TRANSACTION_TYPE_NOT_NULL,
+                },
+            },
         },
         amount: {
             type: DataTypes.DECIMAL,

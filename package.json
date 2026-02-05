@@ -12,11 +12,7 @@
         "dev": "cross-env NODE_ENV=development concurrently \"npx tsc -w\" \"nodemon dist/app.js\"",
         "start:test": "cross-env NODE_ENV=test concurrently \"npx tsc -w\" \"nodemon dist/app.js\"",
         "db:migrate": "npx sequelize-cli db:migrate --env development --config sequelize.config.js",
-        "db:migrate:test": "npx sequelize-cli db:migrate --env test --config sequelize.config.js",
-        "db:migrate:production": "npx sequelize-cli db:migrate --env production --config sequelize.config.js",
-        "db:seed:all": "npx sequelize-cli db:seed:all --env development --config sequelize.config.js",
-        "db:seed:all:test": "npx sequelize-cli db:seed:all --env test --config sequelize.config.js",
-        "db:seed:all:production": "npx sequelize-cli db:seed:all --env production --config sequelize.config.js"
+        "db:fresh:dev": "npx sequelize-cli db:migrate:undo:all --env development --config sequelize.config.js && npx sequelize-cli db:migrate --env development --config sequelize.config.js"
     },
     "keywords": [
         "Idempotent",

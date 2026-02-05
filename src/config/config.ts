@@ -8,23 +8,23 @@ const baseConfig = {
     development: {
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
-        database: process.env.EVENT_DEV_DB,
+        database: process.env.IDEMPOTENT_WALLET_DEV_DB,
         host: process.env.EVENT_DB_HOST_DEV,
         dialect: process.env.DB_DIALECT,
     },
     test: {
         username: process.env.DB_USERNAME_TEST,
         password: process.env.DB_PASSWORD_TEST,
-        database: process.env.EVENT_TEST_DB,
-        host: process.env.EVENT_DB_HOST_TEST,
+        database: process.env.IDEMPOTENT_WALLET_TEST_DB,
+        host: process.env.IDEMPOTENT_WALLET_DB_HOST_DEV,
         dialect: process.env.DB_DIALECT,
     },
     production: {
         username: process.env.DB_USERNAME_PROD,
         password: process.env.DB_PASSWORD_PROD,
-        database: process.env.EVENT_PROD_DB,
-        host: process.env.EVENT_DB_HOST_PROD,
-        dialect: process.env.DB_DIALECT,
+        database: process.env.IDEMPOTENT_WALLET_PROD_DB,
+        host: process.env.IDEMPOTENT_WALLET_DB_HOST_TEST,
+        dialect: process.env.IDEMPOTENT_WALLET_DB_HOST_PROD,
     },
 };
 

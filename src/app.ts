@@ -5,6 +5,8 @@ import helmet from "helmet";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { errorMiddleware } from "./middleware/error";
 import sequelize from "./models";
+import wallet from "./router/wallet";
+import transferRouter from "./router/transfer";
 
 const app = express();
 
@@ -12,6 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.disable("x-powered-by");
+
+app.use("/api/v1/wallet", wallet);
+app.use("/api/v1/transfer", transferRouter);
 
 app.get("/health", (req, res) => {
     res.status(StatusCodes.OK).json({
@@ -23,7 +28,7 @@ app.use("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({
         statusCode: StatusCodes.NOT_FOUND,
         success: false,
-        message: `Event services ${ReasonPhrases.NOT_FOUND}`,
+        message: `Wallet services ${ReasonPhrases.NOT_FOUND}`,
     });
 });
 app.use(errorMiddleware);

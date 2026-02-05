@@ -9,7 +9,13 @@ import {
     DataTypes,
 } from "sequelize";
 import sequelize from ".";
-import { EXTERNAL_REF_NOT_NULL, EXTERNAL_REF_REQUIRED, PENDING } from "../constant/constant";
+import {
+    EXTERNAL_REF_NOT_NULL,
+    EXTERNAL_REF_REQUIRED,
+    PENDING,
+    WALLET_ID_NOT_NULL,
+    WALLET_ID_REQUIRED,
+} from "../constant/constant";
 
 class TransactionLog extends Model<
     InferAttributes<TransactionLog>,
@@ -17,8 +23,11 @@ class TransactionLog extends Model<
 > {
     declare id: CreationOptional<string>;
 
-    declare transactionId: string | null;
     declare externalTransactionReference: string;
+    declare fromWalletId: string;
+    declare toWalletId: string;
+    declare fromTransactionId: string | null;
+    declare toTransactionId: string | null;
     declare status: string;
 
     declare createdAt: CreationOptional<Date>;
@@ -32,7 +41,11 @@ TransactionLog.init(
             primaryKey: true,
             defaultValue: () => nanoid(),
         },
-        transactionId: {
+        fromTransactionId: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        toTransactionId: {
             type: DataTypes.STRING,
             allowNull: true,
         },
@@ -45,6 +58,30 @@ TransactionLog.init(
                 },
                 notNull: {
                     msg: EXTERNAL_REF_NOT_NULL,
+                },
+            },
+        },
+        fromWalletId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: `From ${WALLET_ID_REQUIRED.toLowerCase()}`,
+                },
+                notNull: {
+                    msg: `From ${WALLET_ID_NOT_NULL.toLowerCase()}`,
+                },
+            },
+        },
+        toWalletId: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: `To ${WALLET_ID_REQUIRED.toLowerCase()}`,
+                },
+                notNull: {
+                    msg: `To ${WALLET_ID_NOT_NULL.toLowerCase()}`,
                 },
             },
         },

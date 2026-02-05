@@ -19,7 +19,7 @@ export class TransactionLogRepository {
     async getLogByTransactionId(transactionId: string, t?: Transaction) {
         const log = await TransactionLog.findOne({
             where: {
-                transactionId,
+                fromTransactionId: transactionId,
             },
             transaction: t,
         });
@@ -59,7 +59,7 @@ export class TransactionLogRepository {
                 },
                 {
                     where: {
-                        transactionId,
+                        fromTransactionId: transactionId,
                     },
                     returning: true,
                     validate: true,

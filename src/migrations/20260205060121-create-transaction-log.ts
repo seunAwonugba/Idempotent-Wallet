@@ -6,6 +6,8 @@ import {
     EXTERNAL_REF_NOT_NULL,
     EXTERNAL_REF_REQUIRED,
     PENDING,
+    WALLET_ID_NOT_NULL,
+    WALLET_ID_REQUIRED,
 } from "../constant/constant";
 
 /** @type {import('sequelize-cli').Migration} */
@@ -18,7 +20,11 @@ module.exports = {
                 type: DataTypes.STRING,
                 defaultValue: () => nanoid(),
             },
-            transactionId: {
+            fromTransactionId: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            toTransactionId: {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
@@ -31,6 +37,30 @@ module.exports = {
                     },
                     notNull: {
                         msg: EXTERNAL_REF_NOT_NULL,
+                    },
+                },
+            },
+            fromWalletId: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: `From ${WALLET_ID_REQUIRED.toLowerCase()}`,
+                    },
+                    notNull: {
+                        msg: `From ${WALLET_ID_NOT_NULL.toLowerCase()}`,
+                    },
+                },
+            },
+            toWalletId: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: `To ${WALLET_ID_REQUIRED.toLowerCase()}`,
+                    },
+                    notNull: {
+                        msg: `To ${WALLET_ID_NOT_NULL.toLowerCase()}`,
                     },
                 },
             },
