@@ -2,7 +2,7 @@ import { Transaction } from "sequelize";
 import TransactionLog from "../models/transactionlog";
 
 export class TransactionLogRepository {
-    async createLog(transaction: any, t: Transaction) {
+    async createLog(transaction: any, t?: Transaction) {
         const createTransaction = await TransactionLog.create(transaction, {
             transaction: t,
         });
@@ -16,10 +16,10 @@ export class TransactionLogRepository {
         return transaction;
     }
 
-    async getLogByTransactionId(transactionId: string, t?: Transaction) {
+    async getLogByKey(idempotencyKey: string, t?: Transaction) {
         const log = await TransactionLog.findOne({
             where: {
-                fromTransactionId: transactionId,
+                idempotencyKey,
             },
             transaction: t,
         });

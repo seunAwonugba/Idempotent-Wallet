@@ -5,6 +5,8 @@ import { DataTypes, QueryInterface } from "sequelize";
 import {
     EXTERNAL_REF_NOT_NULL,
     EXTERNAL_REF_REQUIRED,
+    KEY_NOT_NULL,
+    KEY_REQUIRED,
     PENDING,
     WALLET_ID_NOT_NULL,
     WALLET_ID_REQUIRED,
@@ -20,6 +22,7 @@ module.exports = {
                 type: DataTypes.STRING,
                 defaultValue: () => nanoid(),
             },
+
             fromTransactionId: {
                 type: DataTypes.STRING,
                 allowNull: true,
@@ -68,6 +71,18 @@ module.exports = {
                 type: DataTypes.STRING,
                 allowNull: false,
                 defaultValue: PENDING,
+            },
+            idempotencyKey: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: KEY_REQUIRED,
+                    },
+                    notNull: {
+                        msg: KEY_NOT_NULL,
+                    },
+                },
             },
             createdAt: {
                 allowNull: false,

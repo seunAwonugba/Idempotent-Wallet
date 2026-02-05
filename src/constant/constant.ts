@@ -11,6 +11,14 @@ export const WALLET_ID_REQUIRED = "Account id is required";
 export const WALLET_ID_NOT_NULL = "Account id cannot be null";
 export const WALLET_ID_NOT_EMPTY = "Account id cannot be empty";
 
+export const KEY_REQUIRED = "Idempotency-Key is required";
+export const KEY_NOT_NULL = "Idempotency-Key cannot be null";
+export const KEY_NOT_EMPTY = "Idempotency-Key cannot be empty";
+
+export const AMOUNT_REQUIRED = "Amount is required";
+export const AMOUNT_NOT_NULL = "Amount cannot be null";
+export const AMOUNT_NOT_EMPTY = "Amount cannot be empty";
+
 export const TRANSACTION_TYPE_REQUIRED = "Transaction type is required";
 export const TRANSACTION_TYPE_NOT_NULL = "Transaction type cannot be null";
 export const TRANSACTION_TYPE_NOT_EMPTY = "Transaction type cannot be empty";

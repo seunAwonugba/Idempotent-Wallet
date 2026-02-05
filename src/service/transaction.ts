@@ -29,6 +29,7 @@ export class TransactionService {
                 amount,
                 fromWalletBalance,
                 toWalletBalance,
+                idempotencyKey,
             } = payload;
             const result = await sequelize.transaction(async (t) => {
                 //Include a TransactionLog entry with a PENDING state created before the main transaction begins.
@@ -37,6 +38,7 @@ export class TransactionService {
                     externalTransactionReference,
                     fromWalletId,
                     toWalletId,
+                    idempotencyKey,
                 };
 
                 const createLogs =

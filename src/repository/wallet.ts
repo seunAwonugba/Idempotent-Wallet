@@ -5,7 +5,6 @@ export class WalletRepository {
     async getWallet(id: string, t?: Transaction) {
         const transaction = await Wallet.findByPk(id, {
             transaction: t,
-            lock: t?.LOCK.UPDATE
         });
         return transaction;
     }

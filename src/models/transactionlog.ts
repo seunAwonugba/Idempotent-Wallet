@@ -12,6 +12,8 @@ import sequelize from ".";
 import {
     EXTERNAL_REF_NOT_NULL,
     EXTERNAL_REF_REQUIRED,
+    KEY_NOT_NULL,
+    KEY_REQUIRED,
     PENDING,
     WALLET_ID_NOT_NULL,
     WALLET_ID_REQUIRED,
@@ -29,6 +31,7 @@ class TransactionLog extends Model<
     declare fromTransactionId: string | null;
     declare toTransactionId: string | null;
     declare status: string;
+    declare idempotencyKey: string;
 
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
@@ -89,6 +92,18 @@ TransactionLog.init(
             type: DataTypes.STRING,
             allowNull: false,
             defaultValue: PENDING,
+        },
+        idempotencyKey: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: KEY_REQUIRED,
+                },
+                notNull: {
+                    msg: KEY_NOT_NULL,
+                },
+            },
         },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,

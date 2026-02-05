@@ -17,6 +17,7 @@ const transactionService = new TransactionService(
 const transferService = new TransferService(
     walletRepository,
     transactionService,
+    transactionLogRepository,
 );
 
 export const transfer = async (
@@ -24,7 +25,7 @@ export const transfer = async (
     res: Response,
     next: NextFunction,
 ) => {
-    try {        
+    try {
         const transfer = await transferService.transfer(req.body);
 
         return res.status(StatusCodes.CREATED).json({

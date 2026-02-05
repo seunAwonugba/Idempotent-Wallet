@@ -2,7 +2,7 @@ import { Transaction } from "sequelize";
 import Transactions from "../models/transaction";
 
 export class TransactionRepository {
-    async createTransaction(transaction: any, t: Transaction) {
+    async createTransaction(transaction: any, t?: Transaction) {
         const createTransaction = await Transactions.create(transaction, {
             transaction: t,
         });

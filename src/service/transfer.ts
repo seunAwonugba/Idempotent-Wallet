@@ -5,19 +5,34 @@ import sequelize from "../models";
 import { WalletRepository } from "../repository/wallet";
 import { nanoid } from "nanoid";
 import { TransactionService } from "./transaction";
+import { TransactionLogRepository } from "../repository/transaction-log";
 
 export class TransferService {
     constructor(
         private walletRepository: WalletRepository,
         private transactionService: TransactionService,
+        private TransactionLogRepository: TransactionLogRepository,
     ) {}
 
     async transfer(payload: any) {
         try {
             // You must handle race conditions to prevent double-spending.
             const result = await sequelize.transaction(async (t) => {
-                const { fromWalletId, toWalletId, amount } = payload;
+                const { fromWalletId, toWalletId, amount, idempotencyKey } =
+                    payload;
 
+                //Implement an "idempotency key" logic so that a double-tap from a client doesn't process the transaction twice.
+
+                const getTransactionLogByKey =
+                    await this.TransactionLogRepository.getLogByKey(
+                        idempotencyKey,
+                    );
+
+                if (getTransactionLogByKey) {
+                    throw new BadRequest(
+                        `Transaction ${getTransactionLogByKey.status.toLowerCase()}`,
+                    );
+                }
                 //prevent same wallet transfer
                 if (fromWalletId == toWalletId) {
                     throw new Forbidden(ReasonPhrases.FORBIDDEN);
@@ -63,6 +78,7 @@ export class TransferService {
                     fromWalletBalance,
                     toWalletBalance,
                     amount: Number(amount),
+                    idempotencyKey,
                 };
 
                 const transfer =
